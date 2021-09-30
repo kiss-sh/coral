@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import sys
+
+class Source:
+    def __init__(self, filename):
+        self.file = open(filename, 'r')
+
+    def next(self):
+        return self.file.read(1)
+
+if __name__ == '__main__':
+    source_code = Source(sys.argv[1])
+    print(source_code.next())
