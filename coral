@@ -3,12 +3,47 @@
 import sys
 
 class Source:
-    def __init__(self, filename):
-        self.file = open(filename, 'r')
+    def __init__(self, _input, is_file=False):
+        if is_file:
+            self.source = open(_input, 'r')
+            self.is_file = True
+        else:
+            self.source = list(_input)
+            self.is_file = False
 
     def next(self):
-        return self.file.read(1)
+        if self.is_file:
+            return self.source.read(1)
+        else:
+            if len(self.source) > 0:
+                c = self.source[0]
+                del self.source[0]
+                return c
+            else:
+                return ''
+
+def tokenizer(source):
+    token_buffer = []
+    while True:
+        c = source.next()
+        if c == '':
+            break
+
+        if c == '#':
+            # ignore comments
+            while True:
+                c = source.next()
+                if c == '\n' or c == '':
+                    break
 
 if __name__ == '__main__':
-    source_code = Source(sys.argv[1])
-    print(source_code.next())
+    if len(sys.argv) == 1:
+        print('Coral Transpiler.')
+        while True:
+            source_from_input = input('> ')
+            source_code = Source(source_from_input)
+            tokenizer(source_code)
+
+    elif len(sys.argv) == 2:
+        source_code = Source(sys.argv[1], is_file=True)
+        tokenizer(source_code)
