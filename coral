@@ -22,10 +22,17 @@ class Source:
             else:
                 return ''
 
+class Toker:
+    def __init__(self, _type, value=None):
+        self.type = _type
+        self.value = value
+
 def tokenizer(source):
     token_buffer = []
+    tokens = []
+
+    c = source.next()
     while True:
-        c = source.next()
         if c == '':
             break
 
@@ -36,13 +43,37 @@ def tokenizer(source):
                 if c == '\n' or c == '':
                     break
 
+        elif c.isalpha():
+            token_buffer.append(c)
+
+            while True:
+                c = source.next()
+                if c.isalnum():
+                    token_buffer.append(c)
+                else:
+                    break
+
+            token = Toker('identifier', value=''.join(token_buffer))
+            tokens.append(token)
+            token_buffer = []
+
+        else:
+            c = source.next()
+
+
+    return tokens
+
+def print_tokens(tokens):
+    for token in tokens:
+        print(f'type: {token.type} value: {token.value}')
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print('Coral Transpiler.')
         while True:
             source_from_input = input('> ')
             source_code = Source(source_from_input)
-            tokenizer(source_code)
+            print_tokens(tokenizer(source_code))
 
     elif len(sys.argv) == 2:
         source_code = Source(sys.argv[1], is_file=True)
