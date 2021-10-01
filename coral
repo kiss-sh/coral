@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import sys
+from lexer import Source
+from lexer import print_tokens, tokenizer
+
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        print('Coral Transpiler.')
+        while True:
+            source_from_input = input('> ')
+            source_code = Source(source_from_input)
+            print_tokens(tokenizer(source_code))
+
+    elif len(sys.argv) == 2:
+        source_code = Source(sys.argv[1], is_file=True)
+        tokenizer(source_code)
