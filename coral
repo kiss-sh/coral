@@ -57,15 +57,41 @@ def tokenizer(source):
             tokens.append(token)
             token_buffer = []
 
-        else:
+        elif c == '=':
+            token = Toker('equals or assigns')
+            tokens.append(token)
             c = source.next()
 
+        elif c.isdecimal():
+            while c.isdecimal():
+                token_buffer.append(c)
+                c = source.next()
+            else:
+                if c == '.':
+                    token_buffer.append(c)
+                    c = source.next()
+
+                    while c.isdecimal():
+                        token_buffer.append(c)
+                        c = source.next()
+
+                    token = Toker('float', value=''.join(token_buffer))
+                    token_buffer = []
+                    tokens.append(token)
+
+                else:
+                    token = Toker('integer', value=''.join(token_buffer))
+                    token_buffer = []
+                    tokens.append(token)
+
+        else:
+            c = source.next()
 
     return tokens
 
 def print_tokens(tokens):
     for token in tokens:
-        print(f'type: {token.type} value: {token.value}')
+        print(f'type: {token.type}, value: {token.value}')
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
