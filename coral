@@ -62,6 +62,16 @@ def tokenizer(source):
             tokens.append(token)
             c = source.next()
 
+        elif c == '+':
+            token = Toker('plus')
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '*':
+            token = Toker('multiply')
+            tokens.append(token)
+            c = source.next()
+
         elif c.isdecimal():
             while c.isdecimal():
                 token_buffer.append(c)
