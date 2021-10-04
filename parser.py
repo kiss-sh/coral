@@ -15,7 +15,7 @@ def create_ast(tokens):
         node1 = Node(tokens[1])
         del tokens[:2]
 
-        if node1.data.type == (Token.EQUAL or Token.MULTIPLY or Token.PLUS):
+        if node1.data.type == Token.EQUAL or node1.data.type == Token.MULTIPLY or node1.data.type == Token.PLUS:
             node1.right = node0
             node1.left = create_ast(tokens)
             return node1

@@ -39,8 +39,11 @@ class Test(unittest.TestCase):
         ast = create_ast(tokens)
         self.assertEqual(tokens_copy[1], ast.data)
         self.assertEqual(tokens_copy[0], ast.right.data)
-        print(len(tokens))
         self.assertEqual(tokens_copy[3], ast.left.data)
+        self.assertEqual(tokens_copy[2], ast.left.right.data)
+        self.assertEqual(tokens_copy[5], ast.left.left.data)
+        self.assertEqual(tokens_copy[4], ast.left.left.right.data)
+        self.assertEqual(tokens_copy[6], ast.left.left.left.data)
 
 if __name__ == '__main__':
     unittest.main()
