@@ -18,7 +18,15 @@ class Source:
             else:
                 return ''
 
-class Toker:
+class Token:
+    # types
+    EQUAL = 'equal'
+    FLOAT = 'float'
+    IDENTIFIER = 'identifier'
+    INTEGER = 'integer'
+    MULTIPLY = 'multiply'
+    PLUS = 'plus'
+
     def __init__(self, _type, value=None):
         self.type = _type
         self.value = value
@@ -49,22 +57,22 @@ def tokenizer(source):
                 else:
                     break
 
-            token = Toker('identifier', value=''.join(token_buffer))
+            token = Token(Token.IDENTIFIER, value=''.join(token_buffer))
             tokens.append(token)
             token_buffer = []
 
         elif c == '=':
-            token = Toker('equals or assigns')
+            token = Token(Token.EQUAL)
             tokens.append(token)
             c = source.next()
 
         elif c == '+':
-            token = Toker('plus')
+            token = Token(Token.PLUS)
             tokens.append(token)
             c = source.next()
 
         elif c == '*':
-            token = Toker('multiply')
+            token = Token(Token.MULTIPLY)
             tokens.append(token)
             c = source.next()
 
@@ -81,12 +89,12 @@ def tokenizer(source):
                         token_buffer.append(c)
                         c = source.next()
 
-                    token = Toker('float', value=''.join(token_buffer))
+                    token = Token(Token.FLOAT, value=float(''.join(token_buffer)))
                     token_buffer = []
                     tokens.append(token)
 
                 else:
-                    token = Toker('integer', value=''.join(token_buffer))
+                    token = Token(Token.INTEGER, value=int(''.join(token_buffer)))
                     token_buffer = []
                     tokens.append(token)
 
@@ -98,5 +106,3 @@ def tokenizer(source):
 def print_tokens(tokens):
     for token in tokens:
         print(f'type: {token.type}, value: {token.value}')
-
-

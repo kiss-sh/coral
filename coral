@@ -8,7 +8,11 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         print('Coral Transpiler.')
         while True:
-            source_from_input = input('> ')
+            try:
+                source_from_input = input('> ')
+            except (EOFError, KeyboardInterrupt):
+                break
+
             source_code = Source(source_from_input)
             print_tokens(tokenizer(source_code))
 
