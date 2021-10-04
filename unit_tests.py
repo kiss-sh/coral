@@ -1,6 +1,8 @@
+import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
+from parser import Node, create_ast
 
 class Test(unittest.TestCase):
     def test_lexer_source_function(self):
@@ -24,10 +26,21 @@ class Test(unittest.TestCase):
 
         self.assertEqual(Token.INTEGER, tokens[2].type)
         self.assertEqual(1, tokens[2].value)
-                                      
+
         source = Source('#teste')
         tokens = tokenizer(source)
         self.assertTrue(len(tokens) == 0)
+
+    def test_create_ast_function(self):
+        source = Source('sum = 3.14 + 2 * 4')
+        tokens = tokenizer(source)
+        tokens_copy = copy.copy(tokens)
+
+        ast = create_ast(tokens)
+        self.assertEqual(tokens_copy[1], ast.data)
+        self.assertEqual(tokens_copy[0], ast.right.data)
+        print(len(tokens))
+        self.assertEqual(tokens_copy[3], ast.left.data)
 
 if __name__ == '__main__':
     unittest.main()
