@@ -5,7 +5,7 @@ from lexer import Source, tokenizer, Token
 from parser import Node, create_ast
 
 class Test(unittest.TestCase):
-    def test_lexer_source_function(self):
+    def test_lexer_source_fn(self):
         source = Source('test')
         self.assertEqual('t', source.next())
         self.assertEqual('e', source.next())
@@ -13,7 +13,7 @@ class Test(unittest.TestCase):
         self.assertEqual('t', source.next())
         self.assertEqual('',  source.next())
 
-    def test_tokenizer_function(self):
+    def test_tokenizer_fn(self):
         source = Source('test = 1')
         tokens = tokenizer(source)
 
@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
         tokens = tokenizer(source)
         self.assertTrue(len(tokens) == 0)
 
-    def test_create_ast_function(self):
+    def test_create_ast_fn(self):
         source = Source('sum = 3.14 + 2 * 4')
         tokens = tokenizer(source)
         tokens_copy = copy.copy(tokens)
