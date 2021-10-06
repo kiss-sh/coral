@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, create_ast
+from parser import Node, create_ast, transform_ast
 
 class Test(unittest.TestCase):
     def test_lexer_source_fn(self):
@@ -44,6 +44,16 @@ class Test(unittest.TestCase):
         self.assertEqual(tokens_copy[5], ast.left.left.data)
         self.assertEqual(tokens_copy[4], ast.left.left.right.data)
         self.assertEqual(tokens_copy[6], ast.left.left.left.data)
+
+    def test_transform_ast_fn(self):
+        source = Source('sum')
+        tokens = tokenizer(source)
+        tokens_copy = copy.deepcopy(tokens)
+        ast = create_ast(tokens)
+        transform_ast(ast)
+
+        self.assertEqual(f'var {tokens_copy[0].value}', ast.data.value)
+
 
 if __name__ == '__main__':
     unittest.main()

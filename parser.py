@@ -22,3 +22,12 @@ def create_ast(tokens):
 
     else:
         return None
+
+def transform_ast(node):
+    if node.data.type == Token.IDENTIFIER:
+        node.data.value = f'var {node.data.value}'
+
+    if node.right is not None:
+        transform_ast(node.right)
+    if node.left is not None:
+        transform_ast(node.left)
