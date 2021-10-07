@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import sys
+import os
+
 from lexer import Source
 from lexer import print_tokens, tokenizer
 from parser import create_ast, transform_ast
@@ -23,4 +25,11 @@ if __name__ == '__main__':
 
     elif len(sys.argv) == 2:
         source_code = Source(sys.argv[1], is_file=True)
-        tokenizer(source_code)
+        tokens = tokenizer(source_code)
+        ast = create_ast(tokens)
+        transform_ast(ast)
+        output_code = ast_to_code(ast)
+
+        filename_without_extension = os.path.splitext(sys.argv[1])[0]
+        with open(f'{filename_without_extension}.js', 'w') as file_out:
+            file_out.write(output_code)
