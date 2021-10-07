@@ -3,6 +3,8 @@
 import sys
 from lexer import Source
 from lexer import print_tokens, tokenizer
+from parser import create_ast, transform_ast
+from generation_code import ast_to_code
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -14,7 +16,10 @@ if __name__ == '__main__':
                 break
 
             source_code = Source(source_from_input)
-            print_tokens(tokenizer(source_code))
+            tokens = tokenizer(source_code)
+            ast = create_ast(tokens)
+            transform_ast(ast)
+            print(ast_to_code(ast))
 
     elif len(sys.argv) == 2:
         source_code = Source(sys.argv[1], is_file=True)
