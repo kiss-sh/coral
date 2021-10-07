@@ -47,13 +47,13 @@ class Test(unittest.TestCase):
         self.assertEqual(tokens_copy[6], ast.left.left.left.data)
 
     def test_transform_ast_fn(self):
-        source = Source('sum')
+        source = Source('sum = 1')
         tokens = tokenizer(source)
         tokens_copy = copy.deepcopy(tokens)
         ast = create_ast(tokens)
         transform_ast(ast)
 
-        self.assertEqual(f'var {tokens_copy[0].value}', ast.data.value)
+        self.assertEqual('var', ast.right.right.data.value)
 
     def test_ast_to_code_fn(self):
         original_code = 'sum = 3.14 + 2 * 4'

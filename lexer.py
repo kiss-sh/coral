@@ -23,6 +23,7 @@ class Token:
     EQUAL = 'equal'
     FLOAT = 'float'
     IDENTIFIER = 'identifier'
+    IDENTIFIER_VARIABLE = 'identifier_variable'
     INTEGER = 'integer'
     MULTIPLY = 'multiply'
     PLUS = 'plus'
