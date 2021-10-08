@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, create_ast, transform_ast
+from parser import Node, create_ast, transform_ast, replace_keywords
 from generation_code import ast_to_code
 
 class Test(unittest.TestCase):
@@ -65,6 +65,22 @@ class Test(unittest.TestCase):
         self.assertEqual('var', tokens[2].value)
         self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
         self.assertEqual(None, tokens[3].value)
+
+    def test_replace_keywords_fn(self):
+        source = Source('False')
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        self.assertEqual('false', tokens[0].value)
+
+        source = Source('True')
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        self.assertEqual('true', tokens[0].value)
+
+        source = Source('None')
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        self.assertEqual('null', tokens[0].value)
 
     def test_create_ast_fn(self):
         source = Source('sum = 3.14 + 2 * 4')
