@@ -28,6 +28,8 @@ class Token:
     MULTIPLY = 'multiply'
     PLUS = 'plus'
     STRING = 'string'
+    OPEN_PARANTHESIS = 'open_paranthesis'
+    CLOSE_PARANTHESIS = 'close_paranthesis'
 
     def __init__(self, _type, value=None):
         self.type = _type
@@ -92,6 +94,16 @@ def tokenizer(source):
 
         elif c == '*':
             token = Token(Token.MULTIPLY)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '(':
+            token = Token(Token.OPEN_PARANTHESIS)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == ')':
+            token = Token(Token.CLOSE_PARANTHESIS)
             tokens.append(token)
             c = source.next()
 

@@ -44,6 +44,28 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.STRING, tokens[0].type)
         self.assertEqual("'teste'", tokens[0].value)
 
+        source = Source('print()')
+        tokens = tokenizer(source)
+        self.assertTrue(len(tokens) == 3)
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual('print', tokens[0].value)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
+        self.assertEqual(None, tokens[1].value)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[2].type)
+        self.assertEqual(None, tokens[2].value)
+
+        source = Source('print(var)')
+        tokens = tokenizer(source)
+        self.assertTrue(len(tokens) == 4)
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual('print', tokens[0].value)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
+        self.assertEqual(None, tokens[1].value)
+        self.assertEqual(Token.IDENTIFIER, tokens[2].type)
+        self.assertEqual('var', tokens[2].value)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
+        self.assertEqual(None, tokens[3].value)
+
     def test_create_ast_fn(self):
         source = Source('sum = 3.14 + 2 * 4')
         tokens = tokenizer(source)
