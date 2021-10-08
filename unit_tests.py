@@ -2,8 +2,8 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, create_ast, transform_ast, replace_keywords, fix_variable_declaration
-from generation_code import ast_to_code, tokens_to_code
+from parser import Node, replace_keywords, fix_variable_declaration
+from generation_code import tokens_to_code
 
 class Test(unittest.TestCase):
     def test_lexer_source_fn(self):
@@ -89,40 +89,6 @@ class Test(unittest.TestCase):
 
         self.assertTrue(len(tokens) == 4)
         self.assertEqual('var', tokens[0].value)
-
-
-    def test_create_ast_fn(self):
-        source = Source('sum = 3.14 + 2 * 4')
-        tokens = tokenizer(source)
-        tokens_copy = copy.copy(tokens)
-
-        ast = create_ast(tokens)
-        self.assertEqual(tokens_copy[1], ast.data)
-        self.assertEqual(tokens_copy[0], ast.right.data)
-        self.assertEqual(tokens_copy[3], ast.left.data)
-        self.assertEqual(tokens_copy[2], ast.left.right.data)
-        self.assertEqual(tokens_copy[5], ast.left.left.data)
-        self.assertEqual(tokens_copy[4], ast.left.left.right.data)
-        self.assertEqual(tokens_copy[6], ast.left.left.left.data)
-
-    def test_transform_ast_fn(self):
-        source = Source('sum = 1')
-        tokens = tokenizer(source)
-        tokens_copy = copy.deepcopy(tokens)
-        ast = create_ast(tokens)
-        transform_ast(ast)
-
-        self.assertEqual('var', ast.right.right.data.value)
-
-    def test_ast_to_code_fn(self):
-        original_code = 'sum = 3.14 + 2 * 4'
-        source = Source(original_code)
-        tokens = tokenizer(source)
-        ast = create_ast(tokens)
-        transform_ast(ast)
-        new_code = ast_to_code(ast)
-
-        self.assertEqual(new_code, f'var {original_code}')
 
     def test_tokens_to_code_fn(self):
         original_code = 'sum = 3.14 + 2 * 4'

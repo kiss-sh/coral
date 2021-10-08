@@ -133,7 +133,3 @@ def tokenizer(source):
             c = source.next()
 
     return tokens
-
-def print_tokens(tokens):
-    for token in tokens:
-        print(f'type: {token.type}, value: {token.value}')
