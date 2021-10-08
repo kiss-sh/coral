@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, create_ast, transform_ast, replace_keywords
+from parser import Node, create_ast, transform_ast, replace_keywords, fix_variable_declaration
 from generation_code import ast_to_code
 
 class Test(unittest.TestCase):
@@ -81,6 +81,15 @@ class Test(unittest.TestCase):
         tokens = tokenizer(source)
         replace_keywords(tokens)
         self.assertEqual('null', tokens[0].value)
+
+    def test_fix_variable_declaration_fn(self):
+        source = Source('sum = 1')
+        tokens = tokenizer(source)
+        fix_variable_declaration(tokens)
+
+        self.assertTrue(len(tokens) == 4)
+        self.assertEqual('var', tokens[0].value)
+
 
     def test_create_ast_fn(self):
         source = Source('sum = 3.14 + 2 * 4')
