@@ -3,7 +3,7 @@ import unittest
 
 from lexer import Source, tokenizer, Token
 from parser import Node, create_ast, transform_ast, replace_keywords, fix_variable_declaration
-from generation_code import ast_to_code
+from generation_code import ast_to_code, tokens_to_code
 
 class Test(unittest.TestCase):
     def test_lexer_source_fn(self):
@@ -124,6 +124,27 @@ class Test(unittest.TestCase):
 
         self.assertEqual(new_code, f'var {original_code}')
 
+    def test_tokens_to_code_fn(self):
+        original_code = 'sum = 3.14 + 2 * 4'
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        new_code = tokens_to_code(tokens)
+
+        self.assertEqual(new_code, original_code)
+
+        original_code = 'print()'
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        new_code = tokens_to_code(tokens)
+
+        self.assertEqual(new_code, original_code)
+
+        original_code = 'print(var)'
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        new_code = tokens_to_code(tokens)
+
+        self.assertEqual(new_code, original_code)
 
 if __name__ == '__main__':
     unittest.main()
