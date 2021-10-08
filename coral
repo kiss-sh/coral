@@ -4,9 +4,9 @@ import sys
 import os
 
 from lexer import Source
-from lexer import print_tokens, tokenizer
-from parser import create_ast, transform_ast
-from generation_code import ast_to_code
+from lexer import tokenizer
+from parser import replace_keywords, fix_variable_declaration
+from generation_code import tokens_to_code
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -19,17 +19,18 @@ if __name__ == '__main__':
 
             source_code = Source(source_from_input)
             tokens = tokenizer(source_code)
-            ast = create_ast(tokens)
-            transform_ast(ast)
-            print(ast_to_code(ast))
+            replace_keywords(tokens)
+            fix_variable_declaration(tokens)
+            code = tokens_to_code(tokens)
+            print(code)
 
     elif len(sys.argv) == 2:
         source_code = Source(sys.argv[1], is_file=True)
         tokens = tokenizer(source_code)
-        ast = create_ast(tokens)
-        transform_ast(ast)
-        output_code = ast_to_code(ast)
+        replace_keywords(tokens)
+        fix_variable_declaration(tokens)
+        code = tokens_to_code(tokens)
 
         filename_without_extension = os.path.splitext(sys.argv[1])[0]
         with open(f'{filename_without_extension}.js', 'w') as file_out:
-            file_out.write(output_code)
+            file_out.write(code)
