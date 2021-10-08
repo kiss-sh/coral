@@ -27,6 +27,7 @@ class Token:
     INTEGER = 'integer'
     MULTIPLY = 'multiply'
     PLUS = 'plus'
+    STRING = 'string'
 
     def __init__(self, _type, value=None):
         self.type = _type
@@ -61,6 +62,23 @@ def tokenizer(source):
             token = Token(Token.IDENTIFIER, value=''.join(token_buffer))
             tokens.append(token)
             token_buffer = []
+
+        elif c == '"' or c == "'":
+            token_buffer.append(c)
+
+            while True:
+                c = source.next()
+                token_buffer.append(c)
+
+                if c == token_buffer[0]:
+                    break
+                elif c == '':
+                    exit('erro na analise da string')
+
+            token = Token(Token.STRING, value=''.join(token_buffer))
+            tokens.append(token)
+            token_buffer = []
+            c = source.next()
 
         elif c == '=':
             token = Token(Token.EQUAL)

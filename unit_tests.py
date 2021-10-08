@@ -32,6 +32,18 @@ class Test(unittest.TestCase):
         tokens = tokenizer(source)
         self.assertTrue(len(tokens) == 0)
 
+        source = Source('"teste"')
+        tokens = tokenizer(source)
+        self.assertTrue(len(tokens) == 1)
+        self.assertEqual(Token.STRING, tokens[0].type)
+        self.assertEqual('"teste"', tokens[0].value)
+
+        source = Source("'teste'")
+        tokens = tokenizer(source)
+        self.assertTrue(len(tokens) == 1)
+        self.assertEqual(Token.STRING, tokens[0].type)
+        self.assertEqual("'teste'", tokens[0].value)
+
     def test_create_ast_fn(self):
         source = Source('sum = 3.14 + 2 * 4')
         tokens = tokenizer(source)
