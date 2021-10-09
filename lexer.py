@@ -30,6 +30,7 @@ class Token:
     STRING = 'string'
     OPEN_PARANTHESIS = 'open_paranthesis'
     CLOSE_PARANTHESIS = 'close_paranthesis'
+    BREAK_LINE = 'break_line'
 
     def __init__(self, _type, value=None):
         self.type = _type
@@ -128,6 +129,11 @@ def tokenizer(source):
                     token = Token(Token.INTEGER, value=int(''.join(token_buffer)))
                     token_buffer = []
                     tokens.append(token)
+
+        elif c == '\n':
+            token = Token(Token.BREAK_LINE)
+            tokens.append(token)
+            c = source.next()
 
         else:
             c = source.next()
