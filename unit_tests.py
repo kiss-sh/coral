@@ -66,6 +66,11 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
         self.assertEqual(None, tokens[3].value)
 
+        source = Source('2, 2')
+        tokens = tokenizer(source)
+        self.assertTrue(len(tokens) == 3)
+        self.assertEqual(Token.COMMA, tokens[1].type)
+
     def test_replace_keywords_fn(self):
         source = Source('False')
         tokens = tokenizer(source)
