@@ -20,17 +20,17 @@ class Source:
 
 class Token:
     # types
-    BREAK_LINE = 'break_line'
-    CLOSE_PARANTHESIS = 'close_paranthesis'
-    COLON = 'colon'
-    COMMA = 'comma'
-    EQUAL = 'equal'
+    BREAK_LINE = 'break_line'               # '\n'
+    CLOSE_PARANTHESIS = 'close_paranthesis' # ')'
+    COLON = 'colon'                         # ':'
+    COMMA = 'comma'                         # ','
+    EQUAL = 'equal'                         # '='
     FLOAT = 'float'
     IDENTIFIER = 'identifier'
     INTEGER = 'integer'
     MULTIPLY = 'multiply'
-    OPEN_PARANTHESIS = 'open_paranthesis'
-    PLUS = 'plus'
+    OPEN_PARANTHESIS = 'open_paranthesis'   # '('
+    PLUS = 'plus'                           # '+'
     STRING = 'string'
 
     def __init__(self, _type, value=None):
