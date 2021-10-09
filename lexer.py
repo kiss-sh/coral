@@ -20,16 +20,18 @@ class Source:
 
 class Token:
     # types
+    BREAK_LINE = 'break_line'
+    CLOSE_PARANTHESIS = 'close_paranthesis'
+    COLON = 'colon'
+    COMMA = 'comma'
     EQUAL = 'equal'
     FLOAT = 'float'
     IDENTIFIER = 'identifier'
     INTEGER = 'integer'
     MULTIPLY = 'multiply'
+    OPEN_PARANTHESIS = 'open_paranthesis'
     PLUS = 'plus'
     STRING = 'string'
-    OPEN_PARANTHESIS = 'open_paranthesis'
-    CLOSE_PARANTHESIS = 'close_paranthesis'
-    BREAK_LINE = 'break_line'
 
     def __init__(self, _type, value=None):
         self.type = _type
@@ -104,6 +106,16 @@ def tokenizer(source):
 
         elif c == ')':
             token = Token(Token.CLOSE_PARANTHESIS)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == ':':
+            token = Token(Token.COLON)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == ',':
+            token = Token(Token.COMMA)
             tokens.append(token)
             c = source.next()
 

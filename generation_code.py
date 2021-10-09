@@ -5,7 +5,7 @@ def tokens_to_code(tokens):
 
     for idx, token in enumerate(tokens):
         if token.type == Token.OPEN_PARANTHESIS:
-            if idx >= 0 and tokens[idx-1].type == Token.IDENTIFIER:
+            if idx > 0 and tokens[idx-1].type == Token.IDENTIFIER:
                 code += '('
             else:
                 code += ' ('
@@ -13,11 +13,17 @@ def tokens_to_code(tokens):
         elif token.type == Token.CLOSE_PARANTHESIS:
             code += ')'
         elif token.type == Token.EQUAL:
-            code += ' ='
+            if idx > 0 and tokens[idx-1].type == Token.EQUAL:
+                code += '='
+            else:
+                code += ' ='
+
         elif token.type == Token.PLUS:
             code += ' +'
         elif token.type == Token.MULTIPLY:
             code += ' *'
+        elif token.type == Token.COMMA:
+            code += ','
         elif token.type == Token.BREAK_LINE:
             code += '\n'
         elif idx >= 0 and tokens[idx-1].type == Token.OPEN_PARANTHESIS:
