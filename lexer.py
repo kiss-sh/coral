@@ -52,12 +52,12 @@ def tokenizer(source):
                 if c == '\n' or c == '':
                     break
 
-        elif c.isalpha() or c in '_.':
+        elif c.isalpha() or c == '_':
             token_buffer.append(c)
 
             while True:
                 c = source.next()
-                if c.isalnum() or c in '_.':
+                if c.isalnum() or c == '_' or c == '.':
                     token_buffer.append(c)
                 else:
                     break
