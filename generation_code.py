@@ -25,4 +25,6 @@ def tokens_to_code(tokens):
         else:
             code += f' {token.value}'
 
+    if '\n ' in code:
+        code = code.replace('\n ','\n')
     return code.strip()
