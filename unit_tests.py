@@ -71,6 +71,14 @@ class Test(unittest.TestCase):
         self.assertTrue(len(tokens) == 3)
         self.assertEqual(Token.COMMA, tokens[1].type)
 
+        original_code = ('if True:\n'
+                         '    pass')
+        source = Source(original_code)
+        tokens = tokenizer(source)
+
+        self.assertTrue(len(tokens) == 6)
+        self.assertEqual(Token.INDENT, tokens[4].type)
+
     def test_replace_keywords_fn(self):
         source = Source('False')
         tokens = tokenizer(source)

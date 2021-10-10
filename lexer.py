@@ -1,3 +1,4 @@
+
 class Source:
     def __init__(self, _input, is_file=False):
         if is_file:
@@ -34,10 +35,14 @@ class Token:
     OPEN_PARANTHESIS = 'open_paranthesis'   # '('
     PLUS = 'plus'                           # '+'
     STRING = 'string'
+    INDENT = 'indent'                       # '    '
 
     def __init__(self, _type, value=None):
         self.type = _type
         self.value = value
+
+# number of spaces for a unit indent
+SIZE_OF_INDENT = 4
 
 def tokenizer(source):
     token_buffer = []
@@ -120,6 +125,24 @@ def tokenizer(source):
             token = Token(Token.COMMA)
             tokens.append(token)
             c = source.next()
+
+        elif c == ' ':
+            token_buffer.append(c)
+            count_space = 1
+
+            while count_space <= SIZE_OF_INDENT:
+                c = source.next()
+                if c == ' ':
+                    token_buffer.append(c)
+                    count_space += 1
+                else:
+                    break
+
+            if count_space == SIZE_OF_INDENT:
+                token = Token(Token.INDENT)
+                tokens.append(token)
+            token_buffer = []
+
 
         elif c.isdecimal():
             while c.isdecimal():
