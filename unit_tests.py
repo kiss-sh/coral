@@ -126,7 +126,10 @@ class Test(unittest.TestCase):
         self.assertEqual(new_code, original_code)
 
         original_code = ('if True:\n'
-                         '    print(True)\n')
+                         '    print(True)\n'
+                         '\n'
+                         '    if True:\n'
+                         '        print(True)')
         source = Source(original_code)
         tokens = tokenizer(source)
         replace_keywords(tokens)
@@ -135,6 +138,10 @@ class Test(unittest.TestCase):
 
         expected_code = ('if(true) {\n'
                          '    console.log(true)\n'
+                         '\n'
+                         '    if(true) {\n'
+                         '        console.log(tru)'
+                         '    }\n'
                          '}')
         self.assertEqual(expected_code, new_code)
 
