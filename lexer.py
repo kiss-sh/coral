@@ -128,17 +128,15 @@ def tokenizer(source):
 
         elif c == ' ':
             token_buffer.append(c)
-            count_space = 1
 
-            while count_space <= SIZE_OF_INDENT:
+            while len(token_buffer) < SIZE_OF_INDENT:
                 c = source.next()
                 if c == ' ':
                     token_buffer.append(c)
-                    count_space += 1
                 else:
                     break
 
-            if count_space == SIZE_OF_INDENT:
+            if len(token_buffer) == SIZE_OF_INDENT:
                 token = Token(Token.INDENT)
                 tokens.append(token)
             token_buffer = []
