@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, replace_keywords, fix_variable_declaration
+from parser import Node, replace_keywords, fix_variable_declaration, fix_code_blocks
 from generation_code import tokens_to_code
 
 class Test(unittest.TestCase):
@@ -124,6 +124,19 @@ class Test(unittest.TestCase):
         new_code = tokens_to_code(tokens)
 
         self.assertEqual(new_code, original_code)
+
+        original_code = ('if True:\n'
+                         '    print(True)\n')
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        fix_code_blocks(tokens)
+        new_code = tokens_to_code(tokens)
+
+        expected_code = ('if(true) {\n'
+                         '    console.log(true)\n'
+                         '}')
+        self.assertEqual(expected_code, new_code)
 
 if __name__ == '__main__':
     unittest.main()

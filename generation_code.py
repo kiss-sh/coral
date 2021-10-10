@@ -1,4 +1,4 @@
-from lexer import Token
+from lexer import Token, SIZE_OF_INDENT
 
 def tokens_to_code(tokens):
     code = ''
@@ -24,9 +24,16 @@ def tokens_to_code(tokens):
             code += ' *'
         elif token.type == Token.COMMA:
             code += ','
+        elif token.type == Token.OPEN_BRACKETS:
+            code += ' {'
+        elif token.type == Token.CLOSE_BRACKETS:
+            code += '}'
         elif token.type == Token.BREAK_LINE:
             code += '\n'
-        elif idx >= 0 and tokens[idx-1].type == Token.OPEN_PARANTHESIS:
+        elif token.type == Token.INDENT:
+            code += ' ' * SIZE_OF_INDENT
+
+        elif idx > 0 and tokens[idx-1].type == Token.OPEN_PARANTHESIS:
             code += f'{token.value}'
         else:
             code += f' {token.value}'

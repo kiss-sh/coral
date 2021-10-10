@@ -5,7 +5,7 @@ import os
 
 from lexer import Source
 from lexer import tokenizer
-from parser import replace_keywords, fix_variable_declaration
+from parser import replace_keywords, fix_variable_declaration, fix_code_blocks
 from generation_code import tokens_to_code
 
 if __name__ == '__main__':
@@ -29,6 +29,7 @@ if __name__ == '__main__':
         tokens = tokenizer(source_code)
         replace_keywords(tokens)
         fix_variable_declaration(tokens)
+        fix_code_blocks(tokens)
         code = tokens_to_code(tokens)
 
         filename_without_extension = os.path.splitext(sys.argv[1])[0]
