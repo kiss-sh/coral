@@ -11,7 +11,9 @@ def replace_keywords(tokens):
             'False': 'false',
             'None': 'null',
             'True': 'true',
-            'print': 'console.log'
+            'print': 'console.log',
+            'elif': 'else if',
+            'pass': '// empty block'
             }
 
     for token in tokens:
