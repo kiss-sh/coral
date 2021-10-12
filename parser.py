@@ -63,8 +63,12 @@ def fix_code_blocks(tokens):
             index_breakline = get_index_next_breakline(index_start, tokens)
             if index_breakline is not None:
                 for id_level in range(indent_level):
-                    if tokens[index_breakline+id_level+1].type != Token.INDENT:
-                        return index_breakline + indent_level-1
+                    if index_breakline+id_level+1 < len(tokens) and \
+                       tokens[index_breakline+id_level+1].type != Token.INDENT:
+                            if tokens[index_breakline+id_level+1].type == Token.BREAK_LINE and id_level == 0:
+                               index_breakline = index_breakline+id_level+1
+                            else:
+                                return index_breakline + indent_level-1
                 index_start = index_breakline+1
             else:
                 return len(tokens)
@@ -80,7 +84,8 @@ def fix_code_blocks(tokens):
             index_end = find_end_block(tokens, _index, indent_level)
 
             if index_end != len(tokens):
-                tokens.insert(index_end, Token(Token.CLOSE_PARANTHESIS))
+                tokens.insert(index_end, Token(Token.BREAK_LINE))
+                tokens.insert(index_end, Token(Token.CLOSE_BRACKETS))
                 for _ in range(indent_level-1):
                     tokens.insert(index_end, Token(Token.INDENT))
                 tokens.insert(index_end, Token(Token.BREAK_LINE))
@@ -89,4 +94,5 @@ def fix_code_blocks(tokens):
                 for _ in range(indent_level-1):
                     tokens.append(Token(Token.INDENT))
                 tokens.append(Token(Token.CLOSE_BRACKETS))
+                tokens.append(Token(Token.BREAK_LINE))
         _index +=1

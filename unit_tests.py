@@ -129,7 +129,6 @@ class Test(unittest.TestCase):
         replace_keywords(tokens)
         fix_code_blocks(tokens)
 
-        #self.assertTrue(len(tokens))
         self.assertEqual(Token.IDENTIFIER, tokens[0].type)
         self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
         self.assertEqual(Token.IDENTIFIER, tokens[2].type)
@@ -144,6 +143,42 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.BREAK_LINE, tokens[11].type)
         self.assertEqual(Token.CLOSE_BRACKETS, tokens[12].type)
 
+
+        original_code = ('if True:\n'
+                         '    print(True)\n'
+                         '    if True:\n'
+                         '        print(True)')
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        fix_code_blocks(tokens)
+
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[2].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
+        self.assertEqual(Token.OPEN_BRACKETS, tokens[4].type)
+        self.assertEqual(Token.BREAK_LINE, tokens[5].type)
+        self.assertEqual(Token.INDENT, tokens[6].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[7].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[8].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[9].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[10].type)
+        self.assertEqual(Token.BREAK_LINE, tokens[11].type)
+        self.assertEqual(Token.INDENT, tokens[12].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[13].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[14].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[15].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[16].type)
+        self.assertEqual(Token.OPEN_BRACKETS, tokens[17].type)
+        self.assertEqual(Token.BREAK_LINE, tokens[18].type)
+        self.assertEqual(Token.INDENT, tokens[19].type)
+        self.assertEqual(Token.INDENT, tokens[20].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[21].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[22].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[23].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[24].type)
+        self.assertEqual(Token.BREAK_LINE, tokens[25].type)
 
 if __name__ == '__main__':
     unittest.main()
