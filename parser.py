@@ -52,8 +52,22 @@ def fix_code_blocks(tokens):
 
         return indent_level
 
-    def find_end_block(tokens, _index2, indent_level):
-        pass
+    def get_index_next_breakline(index_start, tokens):
+        while index_start < len(tokens):
+            if tokens[index_start].type == Token.BREAK_LINE:
+                return index_start
+            index_start += 1
+
+    def find_end_block(tokens, index_start, indent_level):
+        while True:
+            index_breakline = get_index_next_breakline(index_start, tokens)
+            if index_breakline is not None:
+                for id_level in range(indent_level):
+                    if tokens[index_breakline+id_level+1].type != Token.INDENT:
+                        return index_breakline + indent_level-1
+                index_start = index_breakline+1
+            else:
+                return len(tokens)
 
     _index = 0
     while _index < len(tokens):
@@ -62,5 +76,17 @@ def fix_code_blocks(tokens):
             tokens[_index].value == 'elif' or \
             tokens[_index].value == 'while'):
             fix_header_block(_index, tokens)
+            indent_level = get_indent_level(tokens, _index)
+            index_end = find_end_block(tokens, _index, indent_level)
 
+            if index_end != len(tokens):
+                tokens.insert(index_end, Token(Token.CLOSE_PARANTHESIS))
+                for _ in range(indent_level-1):
+                    tokens.insert(index_end, Token(Token.INDENT))
+                tokens.insert(index_end, Token(Token.BREAK_LINE))
+            else:
+                tokens.append(Token(Token.BREAK_LINE))
+                for _ in range(indent_level-1):
+                    tokens.append(Token(Token.INDENT))
+                tokens.append(Token(Token.CLOSE_BRACKETS))
         _index +=1
