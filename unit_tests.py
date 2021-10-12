@@ -70,11 +70,12 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.COMMA, tokens[1].type)
 
         original_code = ('if True:\n'
-                         '    pass')
+                         '    if True:\n'
+                         '        print(True)')
         source = Source(original_code)
         tokens = tokenizer(source)
 
-        self.assertTrue(len(tokens) == 6)
+        self.assertTrue(len(tokens) == 15)
         self.assertEqual(Token.INDENT, tokens[4].type)
 
     def test_replace_keywords_fn(self):
@@ -120,26 +121,21 @@ class Test(unittest.TestCase):
         new_code = tokens_to_code(tokens)
         self.assertEqual(new_code, original_code)
 
-
+    def test_fix_code_blocks(self):
         original_code = ('if True:\n'
-                         '    print(True)\n'
-                         '\n'
-                         '    if True:\n'
-                         '        print(True)')
+                         '    print(True)')
         source = Source(original_code)
         tokens = tokenizer(source)
         replace_keywords(tokens)
-        #fix_code_blocks(tokens)
-        new_code = tokens_to_code(tokens)
+        fix_code_blocks(tokens)
 
-        expected_code = ('if(true) {\n'
-                         '    console.log(true)\n'
-                         '\n'
-                         '    if(true) {\n'
-                         '        console.log(true)\n'
-                         '    }\n'
-                         '}')
-        #self.assertEqual(expected_code, new_code)
+        #self.assertTrue(len(tokens))
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[2].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
+        self.assertEqual(Token.OPEN_BRACKETS, tokens[4].type)
+
 
 if __name__ == '__main__':
     unittest.main()

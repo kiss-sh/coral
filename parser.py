@@ -30,46 +30,37 @@ def fix_variable_declaration(tokens):
         _index += 1
 
 def fix_code_blocks(tokens):
+    def fix_header_block(index_keyword, tokens):
+        tokens.insert(index_keyword+1, Token(Token.OPEN_PARANTHESIS))
+
+        idx = index_keyword
+        while tokens[idx].type != Token.COLON:
+            idx += 1
+        tokens[idx].type = Token.OPEN_BRACKETS
+        tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
+
+    def get_indent_level(tokens, index_start):
+        while index_start < len(tokens):
+            if tokens[index_start].type == Token.BREAK_LINE:
+                indent_level = 0
+                while tokens[index_start+1].type == Token.INDENT:
+                    indent_level += 1
+                    index_start += 1
+                break
+            else:
+                index_start += 1
+
+        return indent_level
+
+    def find_end_block(tokens, _index2, indent_level):
+        pass
+
     _index = 0
     while _index < len(tokens):
         if tokens[_index].type == Token.IDENTIFIER and \
            (tokens[_index].value == 'if' or \
             tokens[_index].value == 'elif' or \
             tokens[_index].value == 'while'):
-            tokens.insert(_index+1, Token(Token.OPEN_PARANTHESIS))
+            fix_header_block(_index, tokens)
 
-            _index2 = _index
-            while _index2 < len(tokens):
-                if tokens[_index2].type == Token.COLON:
-                    tokens[_index2].type = Token.OPEN_BRACKETS
-                    tokens.insert(_index2, Token(Token.CLOSE_PARANTHESIS))
-                    break
-                _index2 += 1
-
-            _index2 = _index
-            while _index2 < len(tokens):
-                if tokens[_index2].type == Token.OPEN_BRACKETS and \
-                   tokens[_index2+1].type == Token.BREAK_LINE:
-                    cout_indents = 0
-                    _index2 += 2
-                    while tokens[_index2].type == Token.INDENT:
-                        cout_indents += 1
-                        _index2 += 1
-
-                    while True:
-                        if tokens[_index2].type == Token.BREAK_LINE:
-                            if tokens[_index2+cout_indents-1].type == Token.INDENT:
-                                _index2 += 1
-                                continue
-                            else:
-                                for _ in range(cout_indents-1):
-                                    tokens.insert(_index2+cout_indents, Token(Token.INDENT))
-                                tokens.insert(_index2+cout_indents, Token(Token.CLOSE_BRACKETS))
-                                break
-
-                        _index2 += 1
-
-                    break
-                else:
-                    _index2 += 1
-        _index += 1
+        _index +=1
