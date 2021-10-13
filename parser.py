@@ -101,7 +101,7 @@ def fix_code_blocks(tokens):
 
         elif tokens[_index].type == Token.IDENTIFIER and \
              tokens[_index].value == 'else':
-            tokens[_index+1].type == Token.CLOSE_BRACKETS
+            tokens[_index+1].type = Token.OPEN_BRACKETS
             indent_level = get_indent_level(tokens, _index)
             index_end = find_end_block(tokens, _index, indent_level)
             fix_end(index_end, tokens)
