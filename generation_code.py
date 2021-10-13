@@ -27,7 +27,10 @@ def tokens_to_code(tokens):
         elif token.type == Token.OPEN_BRACKETS:
             code += ' {'
         elif token.type == Token.CLOSE_BRACKETS:
-            code += '}'
+            if tokens[idx-1].type == Token.INDENT:
+                code += ' }'
+            else:
+                code += '}'
         elif token.type == Token.BREAK_LINE:
             code += '\n'
         elif token.type == Token.INDENT:
