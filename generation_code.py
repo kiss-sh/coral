@@ -12,6 +12,14 @@ def tokens_to_code(tokens):
 
         elif token.type == Token.CLOSE_PARANTHESIS:
             code += ')'
+        elif token.type == Token.OPEN_BRACKETS:
+            if idx > 0 and tokens[idx-1].type == Token.IDENTIFIER:
+                code += '['
+            else:
+                code += ' ['
+
+        elif token.type == Token.CLOSE_BRACKETS:
+            code += ']'
         elif token.type == Token.EQUAL:
             if idx > 0 and tokens[idx-1].type == Token.EQUAL:
                 code += '='
@@ -36,6 +44,8 @@ def tokens_to_code(tokens):
         elif token.type == Token.INDENT:
             code += ' ' * SIZE_OF_INDENT
 
+        elif idx > 0 and tokens[idx-1].type == Token.OPEN_BRACKETS:
+            code += f'{token.value}'
         elif idx > 0 and tokens[idx-1].type == Token.OPEN_PARANTHESIS:
             code += f'{token.value}'
         else:
