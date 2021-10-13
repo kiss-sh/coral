@@ -77,17 +77,18 @@ def fix_code_blocks(tokens):
 
     def fix_end(index_end, tokens):
         if index_end != len(tokens):
-            tokens.insert(index_end, Token(Token.BREAK_LINE))
+            if tokens[index_end].type == Token.CLOSE_BRACKETS:
+                tokens.insert(index_end, Token(Token.BREAK_LINE))
             tokens.insert(index_end, Token(Token.CLOSE_BRACKETS))
             for _ in range(indent_level-1):
                 tokens.insert(index_end, Token(Token.INDENT))
             tokens.insert(index_end, Token(Token.BREAK_LINE))
         else:
-            tokens.append(Token(Token.BREAK_LINE))
+            del tokens[-1]
             for _ in range(indent_level-1):
                 tokens.append(Token(Token.INDENT))
-            tokens.append(Token(Token.CLOSE_BRACKETS))
             tokens.append(Token(Token.BREAK_LINE))
+            tokens.append(Token(Token.CLOSE_BRACKETS))
 
     _index = 0
     while _index < len(tokens):
