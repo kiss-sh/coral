@@ -75,26 +75,35 @@ def fix_code_blocks(tokens):
             else:
                 return len(tokens)
 
+    def fix_end(index_end, tokens):
+        if index_end != len(tokens):
+            tokens.insert(index_end, Token(Token.CLOSE_BRACKETS))
+            for _ in range(indent_level-1):
+                tokens.insert(index_end, Token(Token.INDENT))
+            tokens.insert(index_end, Token(Token.BREAK_LINE))
+        else:
+            tokens.append(Token(Token.BREAK_LINE))
+            for _ in range(indent_level-1):
+                tokens.append(Token(Token.INDENT))
+            tokens.append(Token(Token.CLOSE_BRACKETS))
+            tokens.append(Token(Token.BREAK_LINE))
+
     _index = 0
     while _index < len(tokens):
         if tokens[_index].type == Token.IDENTIFIER and \
            (tokens[_index].value == 'if' or \
-            tokens[_index].value == 'elif' or \
+            tokens[_index].value == 'else if' or \
             tokens[_index].value == 'while'):
             fix_header_block(_index, tokens)
             indent_level = get_indent_level(tokens, _index)
             index_end = find_end_block(tokens, _index, indent_level)
+            fix_end(index_end, tokens)
 
-            if index_end != len(tokens):
-                tokens.insert(index_end, Token(Token.BREAK_LINE))
-                tokens.insert(index_end, Token(Token.CLOSE_BRACKETS))
-                for _ in range(indent_level-1):
-                    tokens.insert(index_end, Token(Token.INDENT))
-                tokens.insert(index_end, Token(Token.BREAK_LINE))
-            else:
-                tokens.append(Token(Token.BREAK_LINE))
-                for _ in range(indent_level-1):
-                    tokens.append(Token(Token.INDENT))
-                tokens.append(Token(Token.CLOSE_BRACKETS))
-                tokens.append(Token(Token.BREAK_LINE))
+        elif tokens[_index].type == Token.IDENTIFIER and \
+             tokens[_index].value == 'else':
+            tokens[_index+1].type == Token.CLOSE_BRACKETS
+            indent_level = get_indent_level(tokens, _index)
+            index_end = find_end_block(tokens, _index, indent_level)
+            fix_end(index_end, tokens)
+
         _index +=1
