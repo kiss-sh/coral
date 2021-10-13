@@ -24,9 +24,9 @@ def tokens_to_code(tokens):
             code += ' *'
         elif token.type == Token.COMMA:
             code += ','
-        elif token.type == Token.OPEN_BRACKETS:
+        elif token.type == Token.OPEN_KEYS:
             code += ' {'
-        elif token.type == Token.CLOSE_BRACKETS:
+        elif token.type == Token.CLOSE_KEYS:
             if tokens[idx-1].type == Token.INDENT:
                 code += ' }'
             else:

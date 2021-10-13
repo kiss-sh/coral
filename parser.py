@@ -38,7 +38,7 @@ def fix_code_blocks(tokens):
         idx = index_keyword
         while tokens[idx].type != Token.COLON:
             idx += 1
-        tokens[idx].type = Token.OPEN_BRACKETS
+        tokens[idx].type = Token.OPEN_KEYS
         tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
 
     def get_indent_level(tokens, index_start):
@@ -77,9 +77,9 @@ def fix_code_blocks(tokens):
 
     def fix_end(index_end, tokens):
         if index_end != len(tokens):
-            if tokens[index_end].type == Token.CLOSE_BRACKETS:
+            if tokens[index_end].type == Token.CLOSE_KEYS:
                 tokens.insert(index_end, Token(Token.BREAK_LINE))
-            tokens.insert(index_end, Token(Token.CLOSE_BRACKETS))
+            tokens.insert(index_end, Token(Token.CLOSE_KEYS))
             for _ in range(indent_level-1):
                 tokens.insert(index_end, Token(Token.INDENT))
             tokens.insert(index_end, Token(Token.BREAK_LINE))
@@ -88,7 +88,7 @@ def fix_code_blocks(tokens):
             for _ in range(indent_level-1):
                 tokens.append(Token(Token.INDENT))
             tokens.append(Token(Token.BREAK_LINE))
-            tokens.append(Token(Token.CLOSE_BRACKETS))
+            tokens.append(Token(Token.CLOSE_KEYS))
 
     _index = 0
     while _index < len(tokens):
@@ -103,7 +103,7 @@ def fix_code_blocks(tokens):
 
         elif tokens[_index].type == Token.IDENTIFIER and \
              tokens[_index].value == 'else':
-            tokens[_index+1].type = Token.OPEN_BRACKETS
+            tokens[_index+1].type = Token.OPEN_KEYS
             indent_level = get_indent_level(tokens, _index)
             index_end = find_end_block(tokens, _index, indent_level)
             fix_end(index_end, tokens)

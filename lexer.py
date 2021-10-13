@@ -22,7 +22,7 @@ class Source:
 class Token:
     # types
     BREAK_LINE = 'break_line'               # '\n'
-    CLOSE_BRACKETS = 'close_brackets'       # '}'
+    CLOSE_KEYS = 'close_keys'       # '}'
     CLOSE_PARANTHESIS = 'close_paranthesis' # ')'
     COLON = 'colon'                         # ':'
     COMMA = 'comma'                         # ','
@@ -31,7 +31,7 @@ class Token:
     IDENTIFIER = 'identifier'
     INTEGER = 'integer'
     MULTIPLY = 'multiply'
-    OPEN_BRACKETS = 'open_brackets'         # '{'
+    OPEN_KEYS = 'open_keys'         # '{'
     OPEN_PARANTHESIS = 'open_paranthesis'   # '('
     PLUS = 'plus'                           # '+'
     STRING = 'string'
