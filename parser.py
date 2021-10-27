@@ -25,6 +25,7 @@ def fix_variable_declaration(tokens):
     while _index < len(tokens):
         if _index-1 >= 0 and \
            tokens[_index].type   == Token.EQUAL and \
+           tokens[_index+1].type != Token.EQUAL and \
            tokens[_index-1].type == Token.IDENTIFIER:
             var_keyword = Token(Token.IDENTIFIER, value='var')
             tokens.insert(_index-1, var_keyword)
