@@ -24,7 +24,7 @@ if __name__ == '__main__':
             print(code)
 
     elif len(sys.argv) == 2:
-        source_code = lexer.lexer.Source(sys.argv[1], is_file=True)
+        source_code = lexer.Source(sys.argv[1], is_file=True)
         tokens = lexer.tokenizer(source_code)
         parser.replace_keywords(tokens)
         parser.fix_variable_declaration(tokens)
