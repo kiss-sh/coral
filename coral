@@ -3,10 +3,9 @@
 import sys
 import os
 
-from lexer import Source
-from lexer import tokenizer
-from parser import replace_keywords, fix_variable_declaration, fix_code_blocks
-from generation_code import tokens_to_code
+import generation_code
+import lexer
+import parser
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -17,20 +16,20 @@ if __name__ == '__main__':
             except (EOFError, KeyboardInterrupt):
                 break
 
-            source_code = Source(source_from_input)
-            tokens = tokenizer(source_code)
-            replace_keywords(tokens)
-            fix_variable_declaration(tokens)
-            code = tokens_to_code(tokens)
+            source_code = lexer.Source(source_from_input)
+            tokens = lexer.tokenizer(source_code)
+            parser.replace_keywords(tokens)
+            parser.fix_variable_declaration(tokens)
+            code = generation_code.tokens_to_code(tokens)
             print(code)
 
     elif len(sys.argv) == 2:
-        source_code = Source(sys.argv[1], is_file=True)
-        tokens = tokenizer(source_code)
-        replace_keywords(tokens)
-        fix_variable_declaration(tokens)
-        fix_code_blocks(tokens)
-        code = tokens_to_code(tokens)
+        source_code = lexer.lexer.Source(sys.argv[1], is_file=True)
+        tokens = lexer.tokenizer(source_code)
+        parser.replace_keywords(tokens)
+        parser.fix_variable_declaration(tokens)
+        parser.fix_code_blocks(tokens)
+        code = generation_code.tokens_to_code(tokens)
 
         filename_without_extension = os.path.splitext(sys.argv[1])[0]
         with open(f'{filename_without_extension}.js', 'w') as file_out:
