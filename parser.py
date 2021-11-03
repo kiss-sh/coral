@@ -1,11 +1,5 @@
 from lexer import Token
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.right = None
-        self.left = None
-
 def replace_keywords(tokens):
     REPLACE_KEYWORDS = {
             'False': 'false',

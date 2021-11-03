@@ -2,7 +2,7 @@ import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
-from parser import Node, replace_keywords, fix_variable_declaration, fix_code_blocks
+from parser import  replace_keywords, fix_variable_declaration, fix_code_blocks
 from generation_code import tokens_to_code
 
 class Test(unittest.TestCase):
