@@ -1,6 +1,14 @@
+"""Modulo responsavel por pela geracao do codigo destino
+"""
+
 from lexer import Token, SIZE_OF_INDENT
 
 def tokens_to_code(tokens):
+    """
+    função responsavel por pegar uma lista de tokens e gerar uma string
+    com o codigo em que é usado o significado de cada token para gerar o
+    codigo correspondente
+    """
     code = ''
 
     for idx, token in enumerate(tokens):
