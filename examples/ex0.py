@@ -16,9 +16,9 @@ while idx < 100:
                 print(numeros[idx])
                 break_called = True
                 break
-            idx2 -= 1
+            idx2 = idx2 - 1
 
         if break_called == False:
             print('o numero é primo =>')
             print(numeros[idx])
-    idx += 1
+    idx = idx + 1
