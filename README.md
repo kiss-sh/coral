@@ -1,5 +1,6 @@
-# coral - trn
+# coral - transpilador de python para javascript
 
+### projeto para a disciplina de compiladores
 membros:
 --------
 * [Gabriel Jales](https://github.com/gabrieljales)
@@ -15,6 +16,10 @@ caso um arquivo não seja passado como argumento, o transpiler vai entrar
 em um modo shell, que permite testar a conversão de alguns intruções
 sem precisar criar um arquivo, esse modo é mais limitado pois não
 pode criar blocos de codigo
+
+O transpiler dá suporte a um subconjunto da linguagem python, suporta tipos
+primitvos como strings, ints, floats, bools, None e funções embutidas como print,
+blocos de codigos suportados são if, elif, else e while
 
 Estrutura do projeto:
 ```
