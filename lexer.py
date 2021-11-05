@@ -49,13 +49,17 @@ class Token:
     COMMA = 'comma'                         # ','
     EQUAL = 'equal'                         # '='
     FLOAT = 'float'
+    GREATER_THAN = 'greater_than'           # '>'
     IDENTIFIER = 'identifier'
     INDENT = 'indent'                       # '    '
     INTEGER = 'integer'
+    LESS_THAN = 'less_than'                 # '<'
+    MINUS = 'minus'                         # '-'
     MULTIPLY = 'multiply'
     OPEN_BRACKETS = 'open_brackets'         # '['
     OPEN_KEYS = 'open_keys'                 # '{'
     OPEN_PARANTHESIS = 'open_paranthesis'   # '('
+    PERCENTAGE = 'percentage'               # '%'
     PLUS = 'plus'                           # '+'
     STRING = 'string'
 
@@ -131,6 +135,26 @@ def tokenizer(source):
 
         elif c == '*': # read '*' character
             token = Token(Token.MULTIPLY)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '-': # read '-' character
+            token = Token(Token.MINUS)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '%': # read '%' character
+            token = Token(Token.PERCENTAGE)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '>': # read '>' character
+            token = Token(Token.GREATER_THAN)
+            tokens.append(token)
+            c = source.next()
+
+        elif c == '<': # read '<' character
+            token = Token(Token.LESS_THAN)
             tokens.append(token)
             c = source.next()
 
