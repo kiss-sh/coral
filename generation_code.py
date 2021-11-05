@@ -38,6 +38,14 @@ def tokens_to_code(tokens):
             code += ' +'
         elif token.type == Token.MULTIPLY:
             code += ' *'
+        elif token.type == Token.MINUS:
+            code += ' -'
+        elif token.type == Token.PERCENTAGE:
+            code += ' %'
+        elif token.type == Token.GREATER_THAN:
+            code += ' >'
+        elif token.type == Token.LESS_THAN:
+            code += ' <'
         elif token.type == Token.COMMA:
             code += ','
         elif token.type == Token.OPEN_KEYS:
