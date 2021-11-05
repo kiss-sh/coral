@@ -1,4 +1,11 @@
-# coral
+# coral - trn
+
+membros:
+--------
+* [Gabriel Jales](https://github.com/gabrieljales)
+* [jefferson Ximenes](https://github.com/jeffersonximeness)
+* [Jonas Rodrigues](https://github.com/jonis69)
+* [Marcos Fonseca](https://github.com/marcosfnsc)
 
 Como usar o transpiler:
 ```console
