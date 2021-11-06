@@ -23,10 +23,14 @@ blocos de codigos suportados são if, elif, else e while
 
 Estrutura do projeto:
 ```
-├── coral              # codigo principal
-├── generation_code.py # responsavel por juntar os tokens e 'deixar' legivel
-├── lexer.py           # analisa um arquivo ou entrada do usuario e gera uma lista de tokens
-├── parser.py          # analisa a lista de tokens e faz alterações necessarias
+.
+├── coral               # codigo principal
+├── examples            # exemplos de codigo testado no transpiler
+│   └── ex0.py
+├── generation_code.py
+├── lexer.py            # analisa um arquivo ou entrada do usuario e gera uma lista de tokens
+├── LICENSE
+├── parser.py           # analisa a lista de tokens e faz alterações necessarias
 ├── README.md
-└── unit_tests.py      # testes unitários, úteis somente durante o desemvolvimento
+└── unit_tests.py       # testes unitários, úteis somente durante o desemvolvimento
 ```
