@@ -27,7 +27,7 @@ Estrutura do projeto:
 ├── coral               # codigo principal
 ├── examples            # exemplos de codigo testado no transpiler
 │   └── ex0.py
-├── generation_code.py
+├── generation_code.py  # responsavel por juntar os tokens e 'deixar' legivel
 ├── lexer.py            # analisa um arquivo ou entrada do usuario e gera uma lista de tokens
 ├── LICENSE
 ├── parser.py           # analisa a lista de tokens e faz alterações necessarias
