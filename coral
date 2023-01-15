@@ -7,6 +7,13 @@ import generation_code
 import lexer
 import parser
 
+def transpiler(source_code):
+    tokens = lexer.tokenizer(source_code)
+    parser.replace_keywords(tokens)
+    parser.fix_variable_declaration(tokens)
+    parser.fix_code_blocks(tokens)
+    return generation_code.tokens_to_code(tokens)
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print('Coral Transpiler.')
@@ -14,22 +21,16 @@ if __name__ == '__main__':
             try:
                 source_from_input = input('> ')
             except (EOFError, KeyboardInterrupt):
+                print()
                 break
 
             source_code = lexer.Source(source_from_input)
-            tokens = lexer.tokenizer(source_code)
-            parser.replace_keywords(tokens)
-            parser.fix_variable_declaration(tokens)
-            code = generation_code.tokens_to_code(tokens)
+            code = transpiler(source_code)
             print(code)
 
     elif len(sys.argv) == 2:
         source_code = lexer.Source(sys.argv[1], is_file=True)
-        tokens = lexer.tokenizer(source_code)
-        parser.replace_keywords(tokens)
-        parser.fix_variable_declaration(tokens)
-        parser.fix_code_blocks(tokens)
-        code = generation_code.tokens_to_code(tokens)
+        code = transpiler(source_code)
 
         filename_without_extension = os.path.splitext(sys.argv[1])[0]
         with open(f'{filename_without_extension}.js', 'w') as file_out:
