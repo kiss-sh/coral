@@ -1,4 +1,3 @@
-import copy
 import unittest
 
 from lexer import Source, tokenizer, Token
