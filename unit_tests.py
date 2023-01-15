@@ -173,5 +173,20 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.OPEN_PARANTHESIS, tokens[22].type)
         self.assertEqual(Token.IDENTIFIER, tokens[23].type)
 
+        original_code = 'print(var)'
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        fix_code_blocks(tokens)
+        self.assertTrue(len(tokens) == 4)
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual('console.log', tokens[0].value)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[1].type)
+        self.assertEqual(None, tokens[1].value)
+        self.assertEqual(Token.IDENTIFIER, tokens[2].type)
+        self.assertEqual('var', tokens[2].value)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
+        self.assertEqual(None, tokens[3].value)
+
 if __name__ == '__main__':
     unittest.main()
