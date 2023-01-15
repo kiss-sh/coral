@@ -13,7 +13,7 @@ Como usar o transpiler:
 $ ./coral <codigo.py>
 ```
 caso um arquivo não seja passado como argumento, o transpiler vai entrar
-em um modo shell, que permite testar a conversão de alguns intruções
+em um modo shell, que permite testar a conversão de algumas intruções
 sem precisar criar um arquivo, esse modo é mais limitado pois não
 pode criar blocos de codigo
 
