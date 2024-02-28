@@ -10,7 +10,7 @@ membros:
 
 Como usar o transpiler:
 ```console
-$ ./coral <codigo.py>
+python coral <codigo.py>
 ```
 caso um arquivo não seja passado como argumento, o transpiler vai entrar
 em um modo shell, que permite testar a conversão de algumas intruções
