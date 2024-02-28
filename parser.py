@@ -6,12 +6,14 @@ def replace_keywords(tokens):
     instruções equivalentes na linguagem de destino
     """
     REPLACE_KEYWORDS = {
+            'and': '&&',
+            'elif': 'else if',
             'False': 'false',
             'None': 'null',
-            'True': 'true',
+            'or': '||',
+            'pass': '// empty block',
             'print': 'console.log',
-            'elif': 'else if',
-            'pass': '// empty block'
+            'True': 'true'
             }
 
     for token in tokens:

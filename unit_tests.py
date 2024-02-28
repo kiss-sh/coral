@@ -93,6 +93,16 @@ class Test(unittest.TestCase):
         replace_keywords(tokens)
         self.assertEqual('null', tokens[0].value)
 
+        source = Source('and')
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        self.assertEqual('&&', tokens[0].value)
+
+        source = Source('or')
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        self.assertEqual('||', tokens[0].value)
+
     def test_fix_variable_declaration_fn(self):
         source = Source('sum = 1')
         tokens = tokenizer(source)
