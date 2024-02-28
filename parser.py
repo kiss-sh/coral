@@ -9,6 +9,8 @@ def replace_keywords(tokens):
             'False': 'false',
             'None': 'null',
             'True': 'true',
+            'and': '&&',
+            'or': '||',
             'print': 'console.log',
             'elif': 'else if',
             'pass': '// empty block'
