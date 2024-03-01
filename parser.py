@@ -62,6 +62,7 @@ def fix_code_blocks(tokens):
 
     def get_indent_level(tokens, index_start):
         """retorna um inteiro que corresponde ao nivel de indentação"""
+        indent_level = 0
         while index_start < len(tokens):
             if tokens[index_start].type == Token.BREAK_LINE:
                 indent_level = 0
