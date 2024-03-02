@@ -7,6 +7,7 @@ def replace_keywords(tokens):
     """
     REPLACE_KEYWORDS = {
             'and': '&&',
+            'def': 'function',
             'elif': 'else if',
             'False': 'false',
             'None': 'null',
@@ -47,18 +48,21 @@ def fix_code_blocks(tokens):
     por cada etapa da correção
     """
 
-    def fix_header_block(index_keyword, tokens):
+    def fix_header_block(index_keyword, tokens, is_function=False):
         """
         corrige o estilo da declaração de codigo,
         exemplo: while True: -> while(True){
         """
-        tokens.insert(index_keyword+1, Token(Token.OPEN_PARANTHESIS))
+        if not is_function:
+            tokens.insert(index_keyword+1, Token(Token.OPEN_PARANTHESIS))
 
         idx = index_keyword
         while tokens[idx].type != Token.COLON:
             idx += 1
         tokens[idx].type = Token.OPEN_KEYS
-        tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
+
+        if not is_function:
+            tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
 
     def get_indent_level(tokens, index_start):
         """retorna um inteiro que corresponde ao nivel de indentação"""
@@ -129,6 +133,14 @@ def fix_code_blocks(tokens):
         elif tokens[idx].type == Token.IDENTIFIER and \
              tokens[idx].value == 'else':
             tokens[idx+1].type = Token.OPEN_KEYS
+            indent_level = get_indent_level(tokens, idx)
+            index_end = find_end_block(tokens, idx, indent_level)
+            fix_end(index_end, tokens)
+
+        elif tokens[idx].type == Token.IDENTIFIER and \
+           tokens[idx].value == 'function':
+            idx += 1
+            fix_header_block(idx, tokens, is_function=True)
             indent_level = get_indent_level(tokens, idx)
             index_end = find_end_block(tokens, idx, indent_level)
             fix_end(index_end, tokens)
