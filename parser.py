@@ -7,6 +7,7 @@ def replace_keywords(tokens):
     """
     REPLACE_KEYWORDS = {
             'and': '&&',
+            'def': 'function',
             'elif': 'else if',
             'False': 'false',
             'None': 'null',
@@ -47,21 +48,25 @@ def fix_code_blocks(tokens):
     por cada etapa da correção
     """
 
-    def fix_header_block(index_keyword, tokens):
+    def fix_header_block(index_keyword, tokens, is_function=False):
         """
         corrige o estilo da declaração de codigo,
         exemplo: while True: -> while(True){
         """
-        tokens.insert(index_keyword+1, Token(Token.OPEN_PARANTHESIS))
+        if not is_function:
+            tokens.insert(index_keyword+1, Token(Token.OPEN_PARANTHESIS))
 
         idx = index_keyword
         while tokens[idx].type != Token.COLON:
             idx += 1
         tokens[idx].type = Token.OPEN_KEYS
-        tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
+
+        if not is_function:
+            tokens.insert(idx, Token(Token.CLOSE_PARANTHESIS))
 
     def get_indent_level(tokens, index_start):
         """retorna um inteiro que corresponde ao nivel de indentação"""
+        indent_level = 0
         while index_start < len(tokens):
             if tokens[index_start].type == Token.BREAK_LINE:
                 indent_level = 0
@@ -84,14 +89,18 @@ def fix_code_blocks(tokens):
         """retorna o indice do fim do bloco de codigo"""
         while True:
             index_breakline = get_index_next_breakline(index_start, tokens)
+
             if index_breakline is not None:
                 for id_level in range(indent_level):
-                    if index_breakline+id_level+1 < len(tokens) and \
-                       tokens[index_breakline+id_level+1].type != Token.INDENT:
-                        if tokens[index_breakline+id_level+1].type == Token.BREAK_LINE and id_level == 0:
-                            index_breakline = index_breakline+id_level+1
+
+                    new_idx = index_breakline+id_level+1
+                    if new_idx < len(tokens) and \
+                       tokens[new_idx].type != Token.INDENT:
+                        if tokens[new_idx].type == Token.BREAK_LINE and id_level == 0:
+                            index_breakline = new_idx
                         else:
                             return index_breakline + indent_level-1
+
                 index_start = index_breakline+1
             else:
                 return len(tokens)
@@ -113,8 +122,8 @@ def fix_code_blocks(tokens):
             del tokens[-1]
             for _ in range(indent_level-1):
                 tokens.append(Token(Token.INDENT))
-            tokens.append(Token(Token.BREAK_LINE))
             tokens.append(Token(Token.CLOSE_KEYS))
+            tokens.append(Token(Token.BREAK_LINE))
 
     idx = 0
     while idx < len(tokens):
@@ -131,5 +140,13 @@ def fix_code_blocks(tokens):
             indent_level = get_indent_level(tokens, idx)
             index_end = find_end_block(tokens, idx, indent_level)
             fix_end(index_end, tokens)
+
+        elif tokens[idx].type == Token.IDENTIFIER and \
+           tokens[idx].value == 'function':
+            idx += 1
+            fix_header_block(idx, tokens, is_function=True)
+            indent_level = get_indent_level(tokens, idx)
+            index_end = find_end_block(tokens, idx, indent_level)
+            fix_end(index_end-5, tokens)
 
         idx +=1
