@@ -198,5 +198,27 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[3].type)
         self.assertEqual(None, tokens[3].value)
 
+        original_code = ('def sum(a, b):\n'
+                         '    return a + b')
+        source = Source(original_code)
+        tokens = tokenizer(source)
+        replace_keywords(tokens)
+        fix_code_blocks(tokens)
+
+        self.assertEqual(Token.IDENTIFIER, tokens[0].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[1].type)
+        self.assertEqual(Token.OPEN_PARANTHESIS, tokens[2].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[3].type)
+        self.assertEqual(Token.COMMA, tokens[4].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[5].type)
+        self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[6].type)
+        self.assertEqual(Token.OPEN_KEYS, tokens[7].type)
+        self.assertEqual(Token.BREAK_LINE, tokens[8].type)
+        self.assertEqual(Token.INDENT, tokens[9].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[10].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[11].type)
+        self.assertEqual(Token.PLUS, tokens[12].type)
+        self.assertEqual(Token.IDENTIFIER, tokens[13].type)
+
 if __name__ == '__main__':
     unittest.main()
