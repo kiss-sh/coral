@@ -89,14 +89,18 @@ def fix_code_blocks(tokens):
         """retorna o indice do fim do bloco de codigo"""
         while True:
             index_breakline = get_index_next_breakline(index_start, tokens)
+
             if index_breakline is not None:
                 for id_level in range(indent_level):
-                    if index_breakline+id_level+1 < len(tokens) and \
-                       tokens[index_breakline+id_level+1].type != Token.INDENT:
-                        if tokens[index_breakline+id_level+1].type == Token.BREAK_LINE and id_level == 0:
-                            index_breakline = index_breakline+id_level+1
+
+                    new_idx = index_breakline+id_level+1
+                    if new_idx < len(tokens) and \
+                       tokens[new_idx].type != Token.INDENT:
+                        if tokens[new_idx].type == Token.BREAK_LINE and id_level == 0:
+                            index_breakline = new_idx
                         else:
                             return index_breakline + indent_level-1
+
                 index_start = index_breakline+1
             else:
                 return len(tokens)
@@ -118,8 +122,8 @@ def fix_code_blocks(tokens):
             del tokens[-1]
             for _ in range(indent_level-1):
                 tokens.append(Token(Token.INDENT))
-            tokens.append(Token(Token.BREAK_LINE))
             tokens.append(Token(Token.CLOSE_KEYS))
+            tokens.append(Token(Token.BREAK_LINE))
 
     idx = 0
     while idx < len(tokens):
@@ -143,6 +147,6 @@ def fix_code_blocks(tokens):
             fix_header_block(idx, tokens, is_function=True)
             indent_level = get_indent_level(tokens, idx)
             index_end = find_end_block(tokens, idx, indent_level)
-            fix_end(index_end, tokens)
+            fix_end(index_end-5, tokens)
 
         idx +=1

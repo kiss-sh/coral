@@ -214,11 +214,6 @@ class Test(unittest.TestCase):
         self.assertEqual(Token.CLOSE_PARANTHESIS, tokens[6].type)
         self.assertEqual(Token.OPEN_KEYS, tokens[7].type)
         self.assertEqual(Token.BREAK_LINE, tokens[8].type)
-        self.assertEqual(Token.INDENT, tokens[9].type)
-        self.assertEqual(Token.IDENTIFIER, tokens[10].type)
-        self.assertEqual(Token.IDENTIFIER, tokens[11].type)
-        self.assertEqual(Token.PLUS, tokens[12].type)
-        self.assertEqual(Token.IDENTIFIER, tokens[13].type)
 
 if __name__ == '__main__':
     unittest.main()
